@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .item {
+      width: 50px;
+      height: 50px;
+      background-color: lightblue;
+      margin: 5px;
+      border-radius: 30px;
+
+
+      display: flex inline;
+
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+    }
+    .place{
+         width:400px;
+         border-radius: 30px;
+         height:400px;
+         background-color: black;
+         background:rgba(207, 240, 241, 0.5) url('drag-drop-upload-1.gif') center/contain no-repeat;
+         opacity: 0.7;
+
+         border: 2px solid black;
+    }
+    #container{
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(#fff,#000);
+
+        
+
+    }
+  </style>
+</head>
+<body id="container" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+
+  <div class="item" id="item1" draggable="true" ondragstart="drag(event)">1</div>
+  <div class="item" id="item2" draggable="true" ondragstart="drag(event)">2</div>
+  <div class="item" id="item3" draggable="true" ondragstart="drag(event)">3</div>
+
+
+  
+
+
+<div class="place" id="enddiv" 
+ondrop="drop(event)" ondragover="allowDrop(event)" >
+
+
+</div>
+
+<script>
+  function drag(ev) {
+    
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function allowDrop(ev) {
+    
+    ev.preventDefault();
+  }
+
+  function drop(ev) {
+   
+
+    ev.preventDefault();
+    
+          
+       
+    var data = ev.dataTransfer.getData("text");
+
+    // Append the dragged item to the drop target
+    var draggedElement = document.getElementById(data);
+    var dropTarget = document.getElementById("enddiv");
+
+    // Check if the drop target is the original container
+    var originalContainer = document.getElementById("container");
+    if (dropTarget === ev.target) {
+      dropTarget.appendChild(draggedElement);
+    } else if (originalContainer===ev.target) {
+      // If the drop target is 'enddiv' and the dragged item is inside 'enddiv',
+      // and the drop occurs over the original container, move the item back to the original container
+      originalContainer.insertBefore(draggedElement, originalContainer.firstChild);
+    }
+  }
+</script>
+
+</body>
+</html>
